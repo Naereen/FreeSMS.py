@@ -1,10 +1,10 @@
 # :fr: :phone: FreeSMS.py
 
-Un petit script Python 2 ou 3 pour s'envoyer des textos (messages SMS) via l'[API de Free](https://mobile.free.fr/moncompte/index.php?page=options&show=20) (uniquement pour cartes SIM Free).
+Un petit script Python 2 ou 3 pour s'envoyer des textos (messages SMS) via l'[API de Free](https://mobile.free.fr/moncompte/index.php?page=options&show=20) (uniquement pour un téléphone avec une carte SIM Free).
 
 ## Exemples
 ### Usage simple
-1. Installer ce script,
+1. [Installer ce script](#Installation),
 2. Configurer l'API SMS de Free, via [votre espace client](https://mobile.free.fr/moncompte/index.php?page=options&show=20), et noter votre identifiant et clé d'accès à l'API,
 3. Lancer une première fois le script `FreeSMS.py` pour savoir comment stocker ces deux codes,
 4. Tester avec un exemple :
@@ -13,7 +13,7 @@ Un petit script Python 2 ou 3 pour s'envoyer des textos (messages SMS) via l'[AP
     ```
 5. Soyez tout content :+1: ! Et ajouter une [petite étoile](https://github.com/Naereen/FreeSMS.py/stargazers) :star: à ce projet !
 
-Cela va m'envoyer un texto contenant ce texte.
+Cela va vous envoyer un texto contenant ce texte, si tout est bien configuré.
 
 ![screenshots/example1.png](screenshots/example1.png)
 
@@ -25,7 +25,7 @@ FreeSMS.py --help|-h | -f file | body of the message
 ```
 
 - Sans argument, envoie un message de test,
-![screenshots/example2.png](screenshots/example2.png)
+  ![screenshots/example2.png](screenshots/example2.png)
 
 - Avec `-h` ou `--help`, affiche l'aide,
 - Avec `-f FILE`, envoie le contenu de ce fichier (en plusieurs morceaux si besoin).
@@ -47,7 +47,7 @@ Print this help message!
 $ FreeSMS.py -f MyMessageFile.txt
 Try to send the content of the file MyMessageFile.txt.
 
-$ FreeSMS.py "I like using Python to send me SMS from my laptop -- and it"s free thanks to Free !"
+$ FreeSMS.py "I like using Python to send me SMS from my laptop -- and it's free thanks to Free !"
 Will send a test message to your mobile phone.
 
 Copyleft 2014-17 Lilian Besson (License MIT)
@@ -57,6 +57,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
 ### Usage automatisé ?
 Mon script `mymake.sh <https://bitbucket.org/lbesson/bin/src/master/mymake.sh>`_ enrobe l'outil `GNU make <https://www.gnu.org/software/make/>`_ pour m'envoyer un texto quand une simulation est terminée (avec un texte différent selon un échec ou une réussite).
 
+  ![screenshots/example3.png](screenshots/example3.png)
 
 
 ### Cas d'échec
@@ -110,6 +111,8 @@ Python v2.7+ ou Python v3.1+ (version CPython).
 ### :scroll: Licence ? [![GitHub licence](https://img.shields.io/github/license/Naereen/FreeSMS.py.svg)](https://github.com/Naereen/badges/blob/master/LICENSE)
 Ce script et cette documentation sont distribuées en accès libre selon les conditions de la [licence MIT](https://lbesson.mit-license.org/) (cf le fichier [LICENSE](LICENSE) en anglais).
 © [Lilian Besson](https://GitHub.com/Naereen), 2017.
+
+> Merci à [Thibault Groueix](https://github.com/ThibaultGROUEIX) pour des tests et des commentaires utiles en juillet 2016 et novembre 2017.
 
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/FreeSMS.py/graphs/commit-activity)
 [![Demandez moi n'importe quoi !](https://img.shields.io/badge/Demandez%20moi-n'%20importe%20quoi-1abc9c.svg)](https://GitHub.com/Naereen/ama.fr)
