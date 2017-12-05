@@ -12,18 +12,48 @@ Cela va m'envoyer un texto contenant ce texte.
 
 ![screenshots/example1.png](screenshots/example1.png)
 
-### Usage automatisé
-Mon script `mymake.sh <https://bitbucket.org/lbesson/bin/src/master/mymake.sh>`_ enrobe l'outil `GNU make <https://www.gnu.org/software/make/>`_ pour m'envoyer un texto quand une simulation est terminée (avec un texte différent selon un échec ou une réussite).
+### Aide
+L'usage du script est le suivant :
 
+```bash
+FreeSMS.py --help|-h | -f file | body of the message
+```
+
+- Sans argument, envoie un message de test,
 ![screenshots/example2.png](screenshots/example2.png)
 
-### Cas d'échec
-Le script est traduit en français et anglais, et il affiche des messages d'erreurs clairs selon les causes d'échec :
+- Avec `-h` ou `--help`, affiche l'aide,
+- Avec `-f FILE`, envoie le contenu de ce fichier (en plusieurs morceaux si besoin).
 
-![screenshots/example3.png](screenshots/example3.png)
-![screenshots/example4.png](screenshots/example4.png)
-![screenshots/example5.png](screenshots/example5.png)
-![screenshots/example6.png](screenshots/example6.png)
+### Aide détaillée
+```bash
+$ ./FreeSMS.py --help
+Opening the hidden file '~/.smsapifreemobile_number.b64', read and decode (base64) and return its content...
+
+FreeSMS.py --help|-h | -f file | body of the message
+
+A simple Python script to send a text message to a Free Mobile phone.
+The message should be smaller than 480 caracters.
+
+Examples:
+$ FreeSMS.py --help
+Print this help message!
+
+$ FreeSMS.py -f MyMessageFile.txt
+Try to send the content of the file MyMessageFile.txt.
+
+$ FreeSMS.py "I like using Python to send me SMS from my laptop -- and it"s free thanks to Free !"
+Will send a test message to your mobile phone.
+
+Copyleft 2014-17 Lilian Besson (License MIT)
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
+```
+
+### Usage automatisé ?
+Mon script `mymake.sh <https://bitbucket.org/lbesson/bin/src/master/mymake.sh>`_ enrobe l'outil `GNU make <https://www.gnu.org/software/make/>`_ pour m'envoyer un texto quand une simulation est terminée (avec un texte différent selon un échec ou une réussite).
+
+### Cas d'échec
+Le script est traduit en français et anglais, et il affiche des messages d'erreurs clairs selon les causes d'échec.
 
 ----
 
@@ -48,29 +78,29 @@ cp FreeSMS.py /un/dossier/dans/votre/PATH  # exemple ~/.local/bin/
 FreeSMS.py   # va vous aider à créer ~/.smsapifreemobile_number.b64  ~/.smsapifreemobile_password.b64  ~/.smsapifreemobile_user.b64
 ```
 
-### With pip ?
-This project is not yet hosted on [the Pypi package repository](https://pypi.org/), but it can be installed directly from GitHub with [`pip`](http://pip.pypa.io/):
+### Avec `pip` ?
+Ce projet ne sera pas distribué sur [le dépôt de packet Pypi](https://pypi.org/), mais il peut être installé directement depuis GitHub avec [`pip`](http://pip.pypa.io/) et cette commande :
 
 ```bash
 sudo pip install git+https://github.com/Naereen/FreeSMS.py
 ```
 
-Check that you use pip2 or pip3 whether you want it installed for Python 2 or Python 3. ([Python 3 is obviously recommended](https://pythonclock.org/))
+Vérifiez que vous utilisez `pip2` ou `pip3` selon la version de Python pour laquelle vous voulez installer cet outil.  ([Python 3 est évidemment recommandé](https://pythonclock.org/))
 
 ![PyPI implementation](https://img.shields.io/pypi/implementation/lempel_ziv_complexity.svg)
 
 ----
 
-## About
-### Language?
-Python v2.7+ or Python v3.1+.
+## À propos
+### Langage ?
+Python v2.7+ ou Python v3.1+.
 
-### :scroll: License ? [![GitHub license](https://img.shields.io/github/license/Naereen/FreeSMS.py.svg)](https://github.com/Naereen/badges/blob/master/LICENSE)
-[MIT Licensed](https://lbesson.mit-license.org/) (file [LICENSE](LICENSE)).
+### :scroll: Licence ? [![GitHub licence](https://img.shields.io/github/license/Naereen/FreeSMS.py.svg)](https://github.com/Naereen/badges/blob/master/LICENSE)
+Ce script et cette documentation sont distribuées en accès libre selon les conditions de la [licence MIT](https://lbesson.mit-license.org/) (cf le fichier [LICENSE](LICENSE) en anglais).
 © [Lilian Besson](https://GitHub.com/Naereen), 2017.
 
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/FreeSMS.py/graphs/commit-activity)
-[![Ask Me Anything !](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)](https://GitHub.com/Naereen/ama)
+[![Demandez moi n'importe quoi !](https://img.shields.io/badge/Demandez%20moi-n'%20importe%20quoi-1abc9c.svg)](https://GitHub.com/Naereen/ama.fr)
 [![Analytics](https://ga-beacon.appspot.com/UA-38514290-17/github.com/Naereen/FreeSMS.py/README.md?pixel)](https://GitHub.com/Naereen/FreeSMS.py/)
 
 [![ForTheBadge uses-badges](http://ForTheBadge.com/images/badges/uses-badges.svg)](http://ForTheBadge.com)

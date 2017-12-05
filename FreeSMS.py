@@ -235,7 +235,7 @@ Try to send the content of the file MyMessageFile.txt.
 <black>$ FreeSMS.py "I like using Python to send me SMS from my laptop -- and it"s free thanks to Free !"<white>
 Will send a test message to your mobile phone.
 
-<magenta>Copyleft 2014-16 Lilian Besson (License MIT)<white>
+<magenta>Copyleft 2014-17 Lilian Besson (License MIT)<white>
 <b>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.<reset><white>
 """)
         return 0
