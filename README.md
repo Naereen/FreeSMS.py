@@ -1,12 +1,17 @@
 # :fr: :phone: FreeSMS.py
 
-Un petit script Python 2 ou 3 pour s'envoyer des textos (messages SMS) via l'API de Free (uniquement pour cartes SIM Free)
+Un petit script Python 2 ou 3 pour s'envoyer des textos (messages SMS) via l'[API de Free](https://mobile.free.fr/moncompte/index.php?page=options&show=20) (uniquement pour cartes SIM Free).
 
 ## Exemples
 ### Usage simple
-```bash
-FreeSMS.py "Lis cet article très intéressant plus tard : http://tryalgo.org/fr/2017/08/08/bellman/"
-```
+1. Installer ce script,
+2. Configurer l'API SMS de Free, via [votre espace client](https://mobile.free.fr/moncompte/index.php?page=options&show=20), et noter votre identifiant et clé d'accès à l'API,
+3. Lancer une première fois le script `FreeSMS.py` pour savoir comment stocker ces deux codes,
+4. Tester avec un exemple :
+    ```bash
+    FreeSMS.py "Lis cet article très intéressant plus tard : http://tryalgo.org/fr/2017/08/08/bellman/"
+    ```
+5. Soyez tout content :+1: ! Et ajouter une [petite étoile](https://github.com/Naereen/FreeSMS.py/stargazers) :star: à ce projet !
 
 Cela va m'envoyer un texto contenant ce texte.
 
@@ -52,6 +57,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
 ### Usage automatisé ?
 Mon script `mymake.sh <https://bitbucket.org/lbesson/bin/src/master/mymake.sh>`_ enrobe l'outil `GNU make <https://www.gnu.org/software/make/>`_ pour m'envoyer un texto quand une simulation est terminée (avec un texte différent selon un échec ou une réussite).
 
+
+
 ### Cas d'échec
 Le script est traduit en français et anglais, et il affiche des messages d'erreurs clairs selon les causes d'échec.
 
@@ -63,12 +70,15 @@ Le script est traduit en français et anglais, et il affiche des messages d'erre
 Facile !
 Cloner ce dépôt, aller dans le dossier, et déplacer le script [`FreeSMS.py`](FreeSMS.py) dans un autre dossier accessible dans votre `$PATH`.
 
-Au premier lancement du script, il vous expliquera comment créer les fichiers privés :
+Au premier lancement du script, il vous expliquera comment créer les fichiers privés nécessaires à l'utilisation de `FreeSMS.py`, et les stocke dans votre HOME (`~`) :
 
-- `.smsapifreemobile_user.b64` : contient votre identifiant de compte Free,
-- `.smsapifreemobile_password.b64` : contient votre mot de passe,
-- `.smsapifreemobile_number.b64` : contient votre numéro de téléphone, encodé en base 64.
+- [`~/.smsapifreemobile_user.b64`](.smsapifreemobile_user.b64) : contient votre identifiant de compte Free,
+- [`~/.smsapifreemobile_password.b64`](.smsapifreemobile_password.b64) : contient votre mot de passe,
+- [`~/.smsapifreemobile_number.b64`](.smsapifreemobile_number.b64) : contient votre numéro de téléphone, encodé en base 64.
 
+Les trois fichiers fournis en exemple ne sont, bien-sûr, pas valides, mais montre la forme qu'ils doivent avoir.
+
+En résumé, exécuter ça :
 
 ```bash
 cd /tmp/
@@ -77,6 +87,8 @@ cd FreeSMS.py/
 cp FreeSMS.py /un/dossier/dans/votre/PATH  # exemple ~/.local/bin/
 FreeSMS.py   # va vous aider à créer ~/.smsapifreemobile_number.b64  ~/.smsapifreemobile_password.b64  ~/.smsapifreemobile_user.b64
 ```
+
+> Si quelque chose ne fonctionne pas bien, merci [de signaler un problème](https://github.com/Naereen/FreeSMS.py/issues/new) :clap: !
 
 ### Avec `pip` ?
 Ce projet ne sera pas distribué sur [le dépôt de packet Pypi](https://pypi.org/), mais il peut être installé directement depuis GitHub avec [`pip`](http://pip.pypa.io/) et cette commande :
@@ -91,9 +103,9 @@ Vérifiez que vous utilisez `pip2` ou `pip3` selon la version de Python pour laq
 
 ----
 
-## À propos
-### Langage ?
-Python v2.7+ ou Python v3.1+.
+## À propos :notebook:
+### Langage et version(s) ?
+Python v2.7+ ou Python v3.1+ (version CPython).
 
 ### :scroll: Licence ? [![GitHub licence](https://img.shields.io/github/license/Naereen/FreeSMS.py.svg)](https://github.com/Naereen/badges/blob/master/LICENSE)
 Ce script et cette documentation sont distribuées en accès libre selon les conditions de la [licence MIT](https://lbesson.mit-license.org/) (cf le fichier [LICENSE](LICENSE) en anglais).
@@ -107,4 +119,4 @@ Ce script et cette documentation sont distribuées en accès libre selon les con
 [![ForTheBadge uses-git](http://ForTheBadge.com/images/badges/uses-git.svg)](https://GitHub.com/)
 
 [![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
-[![ForTheBadge built-with-science](http://ForTheBadge.com/images/badges/built-with-science.svg)](https://GitHub.com/Naereen/)
+[![ForTheBadge built-with-swag](http://ForTheBadge.com/images/badges/built-with-swag.svg)](https://GitHub.com/Naereen/)
