@@ -1,6 +1,6 @@
 # :fr: :phone: FreeSMS.py
 
-Un petit script Python 2 ou 3 pour s'envoyer des textos (messages SMS) via l'[API de Free](https://mobile.free.fr/moncompte/index.php?page=options&show=20) (uniquement pour un téléphone avec une carte SIM Free).
+Un petit script Python 2 ou 3 pour s'envoyer des textos (messages SMS) en ligne de commande, via l'[API de Free](https://mobile.free.fr/moncompte/index.php?page=options&show=20) (uniquement pour un téléphone avec une carte SIM Free).
 
 ## Exemples
 ### Usage simple
@@ -58,6 +58,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
 Mon script `mymake.sh <https://bitbucket.org/lbesson/bin/src/master/mymake.sh>`_ enrobe l'outil `GNU make <https://www.gnu.org/software/make/>`_ pour m'envoyer un texto quand une simulation est terminée (avec un texte différent selon un échec ou une réussite).
 
   ![screenshots/example3.png](screenshots/example3.png)
+
+#### Suggestions
+- J'utilise des Makefile pour lancer mes simulations numériques sur un serveur de calcul, afin de me prévenir en cas d'erreur ou quand les calculs sont finis,
+- Par exemple, [pour ces simulations](http://banditslilian.gforge.inria.fr/How_to_run_the_code.html#Using-env-variables-?),
+- Et avec un fichier `.use_FreeSMS_for_mymake` créé dans le HOME, l'option `--FreeSMS` est activé par défaut.
 
 
 ### Cas d'échec
