@@ -55,7 +55,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
 ```
 
 ### Usage automatisé ?
-Mon script `mymake.sh <https://bitbucket.org/lbesson/bin/src/master/mymake.sh>`_ enrobe l'outil `GNU make <https://www.gnu.org/software/make/>`_ pour m'envoyer un texto quand une simulation est terminée (avec un texte différent selon un échec ou une réussite).
+Mon script [mymake.sh](https://bitbucket.org/lbesson/bin/src/master/mymake.sh) enrobe l'outil [GNU make](https://www.gnu.org/software/make/) pour m'envoyer un texto quand une simulation est terminée (avec un texte différent selon un échec ou une réussite).
 
   ![screenshots/example3.png](screenshots/example3.png)
 
