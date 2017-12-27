@@ -115,7 +115,7 @@ Python v2.7+ ou Python v3.1+ (version CPython).
 
 ### :scroll: Licence ? [![GitHub licence](https://img.shields.io/github/license/Naereen/FreeSMS.py.svg)](https://github.com/Naereen/badges/blob/master/LICENSE)
 Ce script et cette documentation sont distribuées en accès libre selon les conditions de la [licence MIT](https://lbesson.mit-license.org/) (cf le fichier [LICENSE](LICENSE) en anglais).
-© [Lilian Besson](https://GitHub.com/Naereen), 2017.
+© [Lilian Besson](https://GitHub.com/Naereen), 2017-2018.
 
 > Merci à [Thibault Groueix](https://github.com/ThibaultGROUEIX) pour des tests et des commentaires utiles en juillet 2016 et novembre 2017.
 
