@@ -109,6 +109,14 @@ Vérifiez que vous utilisez `pip2` ou `pip3` selon la version de Python pour laq
 
 ----
 
+## Comparaison à d'autres projets
+
+- https://github.com/bfontaine/freesms est un module et pas un script, qui fait en gros la même chose. L'avantage de son approche est de pouvoir être facilement utilisée par d'autres applications en Python, l'avantage de mon approche est d'être très facile à utiliser depuis un terminal et donc des scripts Bash (cf. [cet exemple, `mymake.sh`](https://bitbucket.org/lbesson/bin/src/master/mymake.sh#mymake.sh-197)).
+
+- ?
+
+----
+
 ## À propos :notebook:
 ### Langage et version(s) ?
 Python v2.7+ ou Python v3.1+ (version CPython).
