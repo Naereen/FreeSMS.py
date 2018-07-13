@@ -193,7 +193,7 @@ def send_sms(text="Empty!", secured=True):
 
     printc("\n<green>Your message is:<white>\n<yellow>" + text + "<white>")
     dictQuery = {"user": user, "pass": password, "msg": text}
-    url = "http" + ("s" if secured else "")
+    url = "https" if secured else "http"
     string_query = dumps(dictQuery, sort_keys=True, indent=4)
     string_query = string_query.replace(password, '*' * len(password))
     printc("\nThe web-based query to the Free Mobile API (<u>{}://smsapi.free-mobile.fr/sendmsg?query<U>) will be based on:\n{}.".format(url, string_query))
@@ -265,11 +265,11 @@ Will send a test message to your mobile phone.
 
     (a Python 2.7+ / 3.1+ script by Lilian Besson, open source, you can find the code
     at https://github.com/Naereen/FreeSMS.py
-    or http://perso.crans.org/besson/bin/FreeSMS.py)
+    or https://perso.crans.org/besson/bin/FreeSMS.py)
 
     For any issues, reach me by email at jarvis[at]crans[dot]org !"""
             # FIXED Check that this is working correctly!
-            machinename = "jarvis.crans.org"  # Default name!
+            machinename = "jarvis"  # Default name!
             try:
                 machinename = open("/etc/hostname").readline()[:-1]
             except OSError:
