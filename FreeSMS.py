@@ -317,9 +317,8 @@ Will send a test message to your mobile phone.
             text = text.format(date=today, machinename=machinename)
             text = text.replace("[at]", "@").replace("[dot]", ".")
 
-    answer = send_sms(text)
-    print(answer[1])
-    return answer[0]
+    answers = send_sms(text)
+    return answers
 
 
 if __name__ == "__main__":

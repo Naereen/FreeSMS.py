@@ -1,6 +1,10 @@
 # Temporary files
 *~
 
+# Private files
+.*.b64
+*.b64
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
