@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 # -*- coding:utf8 -*-
 """
 A simple Python 2.7+ / 3.1+ script to send a text message to a Free Mobile phone.
@@ -94,14 +94,29 @@ except ImportError:
         print(*a, **kw)
 
 
-def openSpecialFile(name):
+def testSpecialFile(name, number=''):
+    """ Test if the hidden file '~/.smsapifreemobile_name.b64' exists and decodes (base64) correctly.
+    """
+    assert name in ["number", "user", "password"], "Error: unknown or incorrect value for 'name' for the function openSpecialFile(name) ..."
+    # printc("<cyan>Testing the hidden file <white>'<u>~/.smsapifreemobile_{}.b64<U>'<cyan>...<white>".format(name))  # DEBUG
+    try:
+        with open(expanduser('~/') + ".smsapifreemobile_" + name + number + ".b64") as f:
+            variable = b64decode(f.readline()[:-1])
+            while variable[-1] == '\n':
+                variable = variable[:-1]
+            return True
+    except OSError:
+        return False
+
+
+
+def openSpecialFile(name, number=''):
     """ Open the hidden file '~/.smsapifreemobile_name.b64', read and decode (base64) and return its content.
     """
     assert name in ["number", "user", "password"], "Error: unknown or incorrect value for 'name' for the function openSpecialFile(name) ..."
     printc("<cyan>Opening the hidden file <white>'<u>~/.smsapifreemobile_{}.b64<U>'<cyan>, read and decode (base64) and return its content...<white>".format(name))
     try:
-        # raise OSError  # DEBUG
-        with open(expanduser('~/') + ".smsapifreemobile_" + name + ".b64") as f:
+        with open(expanduser('~/') + ".smsapifreemobile_" + name + number + ".b64") as f:
             variable = b64decode(f.readline()[:-1])
             while variable[-1] == '\n':
                 variable = variable[:-1]
@@ -120,11 +135,18 @@ def openSpecialFile(name):
             printc("<black>echo 'H6ahkTABEADz5Z' | base64 > '~/.smsapifreemobile_password.b64<white>' ".format())
 
 
+numbers = []
+
 #: Number (not necessary)
 # number = b64decode(open(expanduser('~') + ".smsapifreemobile_number.b64").readline()[:-1])
 # if number[-1] == '\n':
 #     number = number[:-1]
 number = openSpecialFile("number")
+numbers.append(number)
+
+if testSpecialFile("number", "2"):
+    number2 = openSpecialFile("number", "2")
+    numbers.append(number2)
 
 # Detect language
 language = getenv("LANG")
@@ -138,7 +160,6 @@ MAX_SIZE = 4 * 159
 STR_MAX_SIZE = "4*159"
 
 
-
 if language == "fr":
     errorcodes = {
         400: "Un des paramètres obligatoires est manquant.",
@@ -146,7 +167,7 @@ if language == "fr":
         403: """Le service n'est pas activé sur l'espace abonné, ou login / clé incorrect.
 Allez sur '<black>https://mobile.free.fr/moncompte/index.php?page=options&show=20<white>' svp, et activez l'option correspondate.""",
         500: "Erreur côté serveur. Veuillez réessayez ultérieurement.",
-        1:   "Le SMS a été envoyé sur votre mobile ({}).".format(number),
+        1:   "Le SMS a été envoyé sur votre mobile ({}).".format(number) if len(numbers) <= 1 else "Le SMS a été envoyé sur vos numéros ({}).".format(numbers),
         "toolong": "<red>Attention<white> : le message est trop long (+ de <black>{}<white> caracters, soit plus de 3 SMS).".format(STR_MAX_SIZE)
     }
 else:
@@ -156,7 +177,7 @@ else:
         403: """Access denied: the service might not be activated on the online personnal space, or login/password is wrong.
 Please go on '<black>https://mobile.free.fr/moncompte/index.php?page=options&show=20<white>' please, and enable the corresponding option.""",
         500: "Error from the server side. Please try again later.",
-        1:   "The SMS has been sent to your mobile ({}).".format(number),
+        1:   "The SMS has been sent to your mobile ({}).".format(number) if len(numbers) <= 1 else "The SMS has been sent to all your mobile numbers ({}).".format(numbers),
         "toolong": "<red>Warning<white>: message is too long (more than <black>{}<white> caracters, so more than 3 SMS).".format(STR_MAX_SIZE)
     }
 
@@ -183,33 +204,51 @@ def send_sms(text="Empty!", secured=True):
         return answer
         # raise ValueError(errorcodes["toolong"])
 
-    # Read number, user, password
+    # Read user and password
 
+    users = []
     #: Identification Number free mobile
     user = openSpecialFile("user")
+    users.append(user)
+    if testSpecialFile("user", "2"):
+        user2 = openSpecialFile("user", "2")
+        users.append(user2)
 
+    passwords = []
     #: Password
     password = openSpecialFile("password")
+    passwords.append(password)
+    if testSpecialFile("password", "2"):
+        password2 = openSpecialFile("password", "2")
+        passwords.append(password2)
 
     printc("\n<green>Your message is:<white>\n<yellow>" + text + "<white>")
-    dictQuery = {"user": user, "pass": password, "msg": text}
     url = "https" if secured else "http"
-    string_query = dumps(dictQuery, sort_keys=True, indent=4)
-    string_query = string_query.replace(password, '*' * len(password))
-    printc("\nThe web-based query to the Free Mobile API (<u>{}://smsapi.free-mobile.fr/sendmsg?query<U>) will be based on:\n{}.".format(url, string_query))
 
-    query = urlencode(dictQuery)
-    url += "://smsapi.free-mobile.fr/sendmsg?{}".format(query)
+    # Sending to all the numbers
+    results = []
 
-    try:
-        urlopen(url)
-        return 0, errorcodes[1]
-    except HTTPError as e:
-        if hasattr(e, "code"):
-            return e.code, errorcodes[e.code]
-        else:
-            print("Unknown error...")
-            return 2, "Unknown error..."
+    for (user, password) in zip(users, passwords):
+        dictQuery = {"user": user, "pass": password, "msg": text}
+        string_query = dumps(dictQuery, sort_keys=True, indent=4)
+        string_query = string_query.replace(password, '*' * len(password))
+        printc("\nThe web-based query to the Free Mobile API (<u>{}://smsapi.free-mobile.fr/sendmsg?query<U>) will be based on:\n{}.".format(url, string_query))
+
+        query = urlencode(dictQuery)
+        url += "://smsapi.free-mobile.fr/sendmsg?{}".format(query)
+
+        try:
+            urlopen(url)
+            results.append((0, errorcodes[1]))
+        except HTTPError as e:
+            if hasattr(e, "code"):
+                results.append((e.code, errorcodes[e.code]))
+            else:
+                print("Unknown error...")
+                results.append((2, "Unknown error..."))
+
+    # Now we return the list of results
+    return results
 
 
 def main(argv):
@@ -286,4 +325,7 @@ Will send a test message to your mobile phone.
 if __name__ == "__main__":
     # from doctest import testmod  # DEBUG ?
     # testmod(verbose=False)  # DEBUG ?
-    sys.exit(int(main(sys.argv[1:])))
+    results = main(sys.argv[1:])
+    first_result = results[0]
+    code, message = first_result
+    sys.exit(int(code))
