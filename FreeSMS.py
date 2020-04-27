@@ -291,7 +291,7 @@ Sleep one minute.
         return 0
 
     sleep = False
-    sleep_duration = 60  # in seconds
+    sleep_duration = 5  # in seconds
     if "--sleep" in argv:
         sleep = True
         index = argv.index("--sleep")
