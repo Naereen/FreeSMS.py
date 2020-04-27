@@ -239,8 +239,12 @@ def send_sms(text="Empty!", secured=True, sleep_duration=0):
         printc("\nThe web-based query to the Free Mobile API (<u>{}://smsapi.free-mobile.fr/sendmsg?query<U>) will be based on:\n{}.".format(url, string_query))
         if sleep_duration > 0:
             printc("\nSleeping for <red>{}<reset><white> seconds before querying the API...".format(sleep_duration))
-            time.sleep(sleep_duration)
-            printc("\nDone sleeping for <red>{}<reset><white> seconds, it's time to query the API !".format(sleep_duration))
+            try:
+                time.sleep(sleep_duration)
+            except KeyboardInterrupt as e:
+                printc("<red>Cancel sending this message, skipping to next one or stopping...<reset><white>")
+            else:
+                printc("\nDone sleeping for <red>{}<reset><white> seconds, it's time to query the API !".format(sleep_duration))
 
         query = urlencode(dictQuery)
         url += "://smsapi.free-mobile.fr/sendmsg?{}".format(query)
