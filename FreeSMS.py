@@ -242,7 +242,7 @@ def send_sms(text="Empty!", secured=True, sleep_duration=0):
             try:
                 time.sleep(sleep_duration)
             except KeyboardInterrupt as e:
-                printc("<red>Cancel sending this message, skipping to next one or stopping...<reset><white>")
+                printc("<red>You interrupted the process of sending this message, skipping to next one (or stopping now)...<reset><white>")
             else:
                 printc("\nDone sleeping for <red>{}<reset><white> seconds, it's time to query the API !".format(sleep_duration))
 
@@ -295,7 +295,7 @@ Sleep one minute.
         return 0
 
     sleep = False
-    sleep_duration = 5  # in seconds
+    sleep_duration = 15  # in seconds
     if "--sleep" in argv:
         sleep = True
         index = argv.index("--sleep")
