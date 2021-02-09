@@ -1,11 +1,11 @@
 #!/usr/bin/env python2
 # -*- coding:utf8 -*-
 """
-A simple Python 2.7+ / 3.1+ script to send a text message to a Free Mobile phone.
+A simple Python 2.7+ / 3.4+ script to send a text message to a Free Mobile phone.
 
 - Warning: it only works in France to a French number, using the mobile operator Free Mobile.
 - Warning: some initial configuration is required before running this script (see the error messages).
-- Copyleft 2014-17 Lilian Besson
+- Copyright 2014-20 Lilian Besson
 - License MIT.
 
 Examples
@@ -23,7 +23,7 @@ Will send a test message to your mobile phone.
 
     MIT License
 
-    Copyright (c) 2017 Lilian Besson (Naereen), https://github.com/Naereen
+    Copyright (c) 2020 Lilian Besson (Naereen), https://github.com/Naereen
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal
@@ -46,24 +46,28 @@ Will send a test message to your mobile phone.
 
 from __future__ import print_function
 
+# Use sys.version to be compatible with Python 2
 import sys
-from os import getenv
-from json import dumps
-
+# Use os.getenv to see try to emulate os.path.expanduser if needed
+import os
+# Use time to sleep and get string for today current hour
+import time
+# Use JSON to pretty print a dictionary
+import json
 # Use base64 to not keep plaintext files of the number, username and password in your home
-from base64 import b64decode
+import base64
 
-from time import strftime
-today = strftime("%H:%M:%S %Y-%m-%d")
+today = time.strftime("%H:%M:%S %Y-%m-%d")
 
 try:
     from os.path import expanduser
 except ImportError:
-    print("Warning, os.path.expanduser is not available, trying to use getenv('USER') = {} ...".format(getenv("USER")))
+    print("Warning, os.path.expanduser is not available, trying to use os.getenv('USER') = {} ...".format(os.getenv("USER")))
 
     def expanduser(s):
         """ Try to simulate the os.path.expanduser function. """
-        return '/home/' + getenv("USER") + '/' + s
+        return '/home/' + os.getenv("USER") + '/' + s
+
 
 if sys.version_info < (3, 0):
     from urllib import urlencode
@@ -101,7 +105,7 @@ def testSpecialFile(name, number=''):
     # printc("<cyan>Testing the hidden file <white>'<u>~/.smsapifreemobile_{}.b64<U>'<cyan>...<white>".format(name))  # DEBUG
     try:
         with open(expanduser('~/') + ".smsapifreemobile_" + name + number + ".b64") as f:
-            variable = b64decode(f.readline()[:-1])
+            variable = base64.b64decode(f.readline()[:-1])
             while variable[-1] == '\n':
                 variable = variable[:-1]
             return True
@@ -117,7 +121,7 @@ def openSpecialFile(name, number=''):
     printc("<cyan>Opening the hidden file <white>'<u>~/.smsapifreemobile_{}.b64<U>'<cyan>, read and decode (base64) and return its content...<white>".format(name))
     try:
         with open(expanduser('~/') + ".smsapifreemobile_" + name + number + ".b64") as f:
-            variable = b64decode(f.readline()[:-1])
+            variable = base64.b64decode(f.readline()[:-1])
             while variable[-1] == '\n':
                 variable = variable[:-1]
             return variable
@@ -138,7 +142,7 @@ def openSpecialFile(name, number=''):
 numbers = []
 
 #: Number (not necessary)
-# number = b64decode(open(expanduser('~') + ".smsapifreemobile_number.b64").readline()[:-1])
+# number = base64.b64decode(open(expanduser('~') + ".smsapifreemobile_number.b64").readline()[:-1])
 # if number[-1] == '\n':
 #     number = number[:-1]
 number = openSpecialFile("number")
@@ -149,7 +153,7 @@ if testSpecialFile("number", "2"):
     numbers.append(number2)
 
 # Detect language
-language = getenv("LANG")
+language = os.getenv("LANG")
 language = language[0:2] if language else "fr"
 
 
@@ -182,7 +186,7 @@ Please go on '<black>https://mobile.free.fr/moncompte/index.php?page=options&sho
     }
 
 
-def send_sms(text="Empty!", secured=True):
+def send_sms(text="Empty!", secured=True, sleep_duration=0):
     """ Sens a free SMS to the user identified by [user], with [password].
 
     :user: Free Mobile id (of the form [0-9]{8}),
@@ -230,9 +234,13 @@ def send_sms(text="Empty!", secured=True):
 
     for (user, password) in zip(users, passwords):
         dictQuery = {"user": user, "pass": password, "msg": text}
-        string_query = dumps(dictQuery, sort_keys=True, indent=4)
+        string_query = json.dumps(dictQuery, sort_keys=True, indent=4)
         string_query = string_query.replace(password, '*' * len(password))
         printc("\nThe web-based query to the Free Mobile API (<u>{}://smsapi.free-mobile.fr/sendmsg?query<U>) will be based on:\n{}.".format(url, string_query))
+        if sleep_duration > 0:
+            printc("\nSleeping for <red>{}<reset><white> seconds before querying the API...".format(sleep_duration))
+            time.sleep(sleep_duration)
+            printc("\nDone sleeping for <red>{}<reset><white> seconds, it's time to query the API !".format(sleep_duration))
 
         query = urlencode(dictQuery)
         url += "://smsapi.free-mobile.fr/sendmsg?{}".format(query)
@@ -259,7 +267,7 @@ def main(argv):
     # Manual handing of the command line arguments
     if "-h" in argv or "--help" in argv:
         printc("""
-<green>FreeSMS.py<white> --help|-h | -f file | body of the message
+<green>FreeSMS.py<white> --help|-h | -f file | [--sleep] body of the message
 
 A simple Python script to send a text message to a Free Mobile phone.
 The message should be smaller than 480 caracters.
@@ -274,10 +282,27 @@ Try to send the content of the file MyMessageFile.txt.
 <black>$ FreeSMS.py "I like using Python to send me SMS from my laptop -- and it"s free thanks to Free !"<white>
 Will send a test message to your mobile phone.
 
-<magenta>Copyleft 2014-17 Lilian Besson (License MIT)<white>
+<black>$ FreeSMS.py --sleep 1 "This option makes the script sleep for one minute"<white>
+Sleep one minute.
+
+<magenta>Copyright 2014-20 Lilian Besson (License MIT)<white>
 <b>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.<reset><white>
 """)
         return 0
+
+    sleep = False
+    sleep_duration = 60  # in seconds
+    if "--sleep" in argv:
+        sleep = True
+        index = argv.index("--sleep")
+        if index + 1 < len(argv):
+            try:
+                sleep_duration = int(argv[index + 1])
+            except:
+                printc("<red>Unable to get a sleep duration value from the command line argument ('{}' does not convert to an integer).".format(argv[index + 1]))  # DEBUG
+            else:
+                argv.pop(index)  # remove sleep_duration
+        argv.pop(index)  # remove "--sleep"
 
     if "-f" in argv:
         try:
@@ -302,7 +327,7 @@ Will send a test message to your mobile phone.
         else:
             text = """Test SMS sent from {machinename} with FreeSMS.py (the {date}).
 
-    (a Python 2.7+ / 3.1+ script by Lilian Besson, open source, you can find the code
+    (a Python 2.7+ / 3.4+ script by Lilian Besson, open source, you can find the code
     at https://github.com/Naereen/FreeSMS.py
     or https://perso.crans.org/besson/bin/FreeSMS.py)
 
@@ -317,7 +342,7 @@ Will send a test message to your mobile phone.
             text = text.format(date=today, machinename=machinename)
             text = text.replace("[at]", "@").replace("[dot]", ".")
 
-    answers = send_sms(text)
+    answers = send_sms(text, sleep_duration=sleep_duration)
     return answers
 
 
