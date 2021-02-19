@@ -1,11 +1,11 @@
 # :fr: :phone: FreeSMS.py
 
-Un petit script Python 2 ou 3 pour s'envoyer des textos (messages SMS) en ligne de commande, via l'[API de Free](https://mobile.free.fr/moncompte/index.php?page=options&show=20) (uniquement pour un téléphone avec une carte SIM Free).
+Un petit script Python 2 ou 3 pour s'envoyer des textos (messages SMS) en ligne de commande, via l'[API de Free](https://mobile.free.fr/account/mes-options/notifications-sms) ([ancien lien](https://mobile.free.fr/moncompte/index.php?page=options&show=20)) (uniquement pour un téléphone avec une carte SIM Free).
 
 ## Exemples
 ### Usage simple
 1. [Installer ce script](#Installation),
-2. Configurer l'API SMS de Free, via [votre espace client](https://mobile.free.fr/moncompte/index.php?page=options&show=20), et noter votre identifiant et clé d'accès à l'API,
+2. Configurer l'API SMS de Free, via [votre espace client](https://mobile.free.fr/account/mes-options/notifications-sms), et noter votre identifiant et clé d'accès à l'API,
 3. Lancer une première fois le script `FreeSMS.py` pour savoir comment stocker ces deux codes,
 4. Tester avec un exemple :
     ```bash
@@ -123,7 +123,7 @@ Python v2.7+ ou Python v3.1+ (version CPython).
 
 ### :scroll: Licence ? [![GitHub licence](https://img.shields.io/github/license/Naereen/FreeSMS.py.svg)](https://github.com/Naereen/badges/blob/master/LICENSE)
 Ce script et cette documentation sont distribuées en accès libre selon les conditions de la [licence MIT](https://lbesson.mit-license.org/) (cf le fichier [LICENSE](LICENSE) en anglais).
-© [Lilian Besson](https://GitHub.com/Naereen), 2017-2018.
+© [Lilian Besson](https://GitHub.com/Naereen), 2017-2021.
 
 > Merci à [Thibault Groueix](https://github.com/ThibaultGROUEIX) pour des tests et des commentaires utiles en juillet 2016 et novembre 2017.
 

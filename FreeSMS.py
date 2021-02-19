@@ -5,6 +5,7 @@ A simple Python 2.7+ / 3.4+ script to send a text message to a Free Mobile phone
 
 - Warning: it only works in France to a French number, using the mobile operator Free Mobile.
 - Warning: some initial configuration is required before running this script (see the error messages).
+- Activate it on: https://mobile.free.fr/account/mes-options/notifications-sms
 - Copyright 2014-20 Lilian Besson
 - License MIT.
 
@@ -135,7 +136,7 @@ def openSpecialFile(name, number=''):
             print("To create '~/.smsapifreemobile_user.b64', use your Free Mobile identifier (a 8 digit number, like '83123456'), and execute this command line (in a terminal):")
             printc("<black>echo '83123456' | base64 > '~/.smsapifreemobile_user.b64'<white>".format())
         elif name == "password":
-            print("To create '~/.smsapifreemobile_password.b64', go to this webpage, https://mobile.free.fr/moncompte/index.php?page=options&show=20 (after logging to your Free Mobile account), and copy the API key (a 14-caracters string on [a-zA-Z0-9]*, like 'H6ahkTABEADz5Z'), and execute this command line (in a terminal):")
+            print("To create '~/.smsapifreemobile_password.b64', go to this webpage, https://mobile.free.fr/account/mes-options/notifications-sms (after logging to your Free Mobile account), and copy the API key (a 14-caracters string on [a-zA-Z0-9]*, like 'H6ahkTABEADz5Z'), and execute this command line (in a terminal):")
             printc("<black>echo 'H6ahkTABEADz5Z' | base64 > '~/.smsapifreemobile_password.b64<white>' ".format())
 
 
@@ -169,7 +170,7 @@ if language == "fr":
         400: "Un des paramètres obligatoires est manquant.",
         402: "Trop de SMS ont été envoyés en trop peu de temps.",
         403: """Le service n'est pas activé sur l'espace abonné, ou login / clé incorrect.
-Allez sur '<black>https://mobile.free.fr/moncompte/index.php?page=options&show=20<white>' svp, et activez l'option correspondate.""",
+Allez sur '<black>https://mobile.free.fr/account/mes-options/notifications-sms<white>' svp, et activez l'option correspondate.""",
         500: "Erreur côté serveur. Veuillez réessayez ultérieurement.",
         1:   "Le SMS a été envoyé sur votre mobile ({}).".format(number) if len(numbers) <= 1 else "Le SMS a été envoyé sur vos numéros ({}).".format(numbers),
         "toolong": "<red>Attention<white> : le message est trop long (+ de <black>{}<white> caracters, soit plus de 3 SMS).".format(STR_MAX_SIZE)
@@ -179,7 +180,7 @@ else:
         400: "One of the necessary parameter is missing.",
         402: "Too many SMSs has been sent in a short time (you might be a spammer!).",
         403: """Access denied: the service might not be activated on the online personnal space, or login/password is wrong.
-Please go on '<black>https://mobile.free.fr/moncompte/index.php?page=options&show=20<white>' please, and enable the corresponding option.""",
+Please go on '<black>https://mobile.free.fr/account/mes-options/notifications-sms<white>' please, and enable the corresponding option.""",
         500: "Error from the server side. Please try again later.",
         1:   "The SMS has been sent to your mobile ({}).".format(number) if len(numbers) <= 1 else "The SMS has been sent to all your mobile numbers ({}).".format(numbers),
         "toolong": "<red>Warning<white>: message is too long (more than <black>{}<white> caracters, so more than 3 SMS).".format(STR_MAX_SIZE)
