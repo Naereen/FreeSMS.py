@@ -97,7 +97,9 @@ FreeSMS.py   # va vous aider à créer ~/.smsapifreemobile_number.b64  ~/.smsapi
 > Si quelque chose ne fonctionne pas bien, merci [de signaler un problème](https://github.com/Naereen/FreeSMS.py/issues/new) :clap: !
 
 ### Avec `pip` ?
-Ce projet ne sera pas distribué sur [le dépôt de packet Pypi](https://pypi.org/), mais il peut être installé directement depuis GitHub avec [`pip`](http://pip.pypa.io/) et cette commande :
+TODO: [écrire un `setup.py` pour installer ça !](https://github.com/Naereen/FreeSMS.py/issues/2)
+
+Vu son usage très restreint, ce projet ne sera **pas** distribué sur [le dépôt de packet Pypi](https://pypi.org/), mais il peut être installé directement depuis GitHub avec [`pip`](http://pip.pypa.io/) et cette commande :
 
 ```bash
 sudo pip install git+https://github.com/Naereen/FreeSMS.py
