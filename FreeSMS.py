@@ -130,7 +130,7 @@ def openSpecialFile(name, number=''):
         printc("<red>Error: unable to read the file '~/.smsapifreemobile_{}.b64' ...<white>".format(name))
         printc("<yellow>Please check that it is present, and if it not there, create it:<white>")
         if name == "number":
-            print("To create '~/.smsapifreemobile_number.b64', use your phone number (like '0612345678', not wiht +33), and execute this command line (in a terminal):")
+            print("To create '~/.smsapifreemobile_number.b64', use your phone number (like '0612345678', not with +33), and execute this command line (in a terminal):")
             printc("<black>echo '0612345678' | base64 > '~/.smsapifreemobile_number.b64'<white>".format())
         elif name == "user":
             print("To create '~/.smsapifreemobile_user.b64', use your Free Mobile identifier (a 8 digit number, like '83123456'), and execute this command line (in a terminal):")
@@ -179,7 +179,7 @@ else:
     errorcodes = {
         400: "One of the necessary parameter is missing.",
         402: "Too many SMSs has been sent in a short time (you might be a spammer!).",
-        403: """Access denied: the service might not be activated on the online personnal space, or login/password is wrong.
+        403: """Access denied: the service might not be activated on the online personal space, or login/password is wrong.
 Please go on '<black>https://mobile.free.fr/account/mes-options/notifications-sms<white>' please, and enable the corresponding option.""",
         500: "Error from the server side. Please try again later.",
         1:   "The SMS has been sent to your mobile ({}).".format(number) if len(numbers) <= 1 else "The SMS has been sent to all your mobile numbers ({}).".format(numbers),
@@ -336,7 +336,7 @@ Sleep one minute.
     at https://github.com/Naereen/FreeSMS.py
     or https://perso.crans.org/besson/bin/FreeSMS.py)
 
-    For any issues, reach me by email at jarvis[at]crans[dot]org !"""
+    For any issues, reach me by email at besson[at]crans[dot]org !"""
             # FIXED Check that this is working correctly!
             machinename = "jarvis"  # Default name!
             try:
