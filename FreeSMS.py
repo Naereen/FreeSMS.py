@@ -57,8 +57,21 @@ import time
 import json
 # Use base64 to not keep plaintext files of the number, username and password in your home
 import base64
+#Use socket to get machine name
+import socket
+
+#Dependancies required to avoid errors in python 3.9
+import urllib.parse
+from urllib.request import urlopen
+from urllib.error import HTTPError
+from urllib3.request import urlencode
 
 today = time.strftime("%H:%M:%S %Y-%m-%d")
+
+#Used to know if the script is running on a windows machine or linux one
+Platform = sys.platform
+if Platform == "win32": #For Windows environment we need to get the current user in order to locate the required files for the script
+    Uname = os.getlogin()
 
 try:
     from os.path import expanduser
@@ -69,14 +82,6 @@ except ImportError:
         """ Try to simulate the os.path.expanduser function. """
         return '/home/' + os.getenv("USER") + '/' + s
 
-
-if sys.version_info < (3, 0):
-    from urllib import urlencode
-    from urllib2 import urlopen, HTTPError
-else:
-    from urllib3.request import urlencode
-    from urllib.request import urlopen
-    from urllib.error import HTTPError
 
 
 try:
@@ -99,17 +104,23 @@ except ImportError:
         print(*a, **kw)
 
 
+
 def testSpecialFile(name, number=''):
     """ Test if the hidden file '~/.smsapifreemobile_name.b64' exists and decodes (base64) correctly.
     """
     assert name in ["number", "user", "password"], "Error: unknown or incorrect value for 'name' for the function openSpecialFile(name) ..."
     # printc("<cyan>Testing the hidden file <white>'<u>~/.smsapifreemobile_{}.b64<U>'<cyan>...<white>".format(name))  # DEBUG
     try:
-        with open(expanduser('~/') + ".smsapifreemobile_" + name + number + ".b64") as f:
-            variable = base64.b64decode(f.readline()[:-1])
-            while variable[-1] == '\n':
-                variable = variable[:-1]
-            return True
+        if Platform == "win32":
+            with open("C:\\Users\\"+Uname+"\\.smsapifreemobile_" + name + number + ".b64") as f:
+                variable = base64.b64decode(f.readline()[:-1])
+        else:
+            with open(expanduser('~/') + ".smsapifreemobile_" + name + number + ".b64") as f:
+                variable = base64.b64decode(f.readline()[:-1])
+        variable = variable.replace('b\'','')   #Removes the b at the beginning of decoded string
+        while variable[-1] == '\n':
+            variable = variable[:-1]
+        return True
     except OSError:
         return False
 
@@ -121,23 +132,41 @@ def openSpecialFile(name, number=''):
     assert name in ["number", "user", "password"], "Error: unknown or incorrect value for 'name' for the function openSpecialFile(name) ..."
     printc("<cyan>Opening the hidden file <white>'<u>~/.smsapifreemobile_{}.b64<U>'<cyan>, read and decode (base64) and return its content...<white>".format(name))
     try:
-        with open(expanduser('~/') + ".smsapifreemobile_" + name + number + ".b64") as f:
-            variable = base64.b64decode(f.readline()[:-1])
-            while variable[-1] == '\n':
-                variable = variable[:-1]
-            return variable
+        if Platform == "win32":
+            with open("C:\\Users\\"+Uname+"\\.smsapifreemobile_" + name + number + ".b64") as f:
+                variable = str(base64.b64decode(f.readline()[:-1]))
+        else:
+            with open(expanduser('~/') + ".smsapifreemobile_" + name + number + ".b64") as f:
+                variable = str(base64.b64decode(f.readline()[:-1]))
+        variable = variable.replace('b\'','')   #Removes the b at the beginning of decoded string
+        variable = variable.replace('\'','')    #Removes the ' at the of decoded string
+        while variable[-1] == '\n':
+            variable = variable[:-1]
+        return variable
     except OSError:
         printc("<red>Error: unable to read the file '~/.smsapifreemobile_{}.b64' ...<white>".format(name))
         printc("<yellow>Please check that it is present, and if it not there, create it:<white>")
         if name == "number":
-            print("To create '~/.smsapifreemobile_number.b64', use your phone number (like '0612345678', not with +33), and execute this command line (in a terminal):")
-            printc("<black>echo '0612345678' | base64 > '~/.smsapifreemobile_number.b64'<white>".format())
+            if Platform == "win32":
+                print("To create" +"C:\\Users\\"+Uname+"\\.smsapifreemobile_number.b64, use your phone number (like '0612345678', not with +33), and execute this command line (in a powershell instance):")
+                printc("<black> [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes( \"0612345678\")) | Out-File -FilePath .\\.smsapifreemobile_number.b64")
+            else:
+                print("To create '~/.smsapifreemobile_number.b64', use your phone number (like '0612345678', not with +33), and execute this command line (in a terminal):")
+                printc("<black>echo '0612345678' | base64 > '~/.smsapifreemobile_number.b64'<white>".format())
         elif name == "user":
-            print("To create '~/.smsapifreemobile_user.b64', use your Free Mobile identifier (a 8 digit number, like '83123456'), and execute this command line (in a terminal):")
-            printc("<black>echo '83123456' | base64 > '~/.smsapifreemobile_user.b64'<white>".format())
+            if Platform == "win32":
+                print("To create" +"C:\\Users\\"+Uname+"\\.smsapifreemobile_user.b64, use your Free Mobile identifier (a 8 digit number, like '83123456'), and execute this command line (in a powershell instance):")
+                printc("<black> [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes( \"83123456\")) | Out-File -FilePath .\\.smsapifreemobile_user.b64")
+            else:
+                print("To create '~/.smsapifreemobile_user.b64', use your Free Mobile identifier (a 8 digit number, like '83123456'), and execute this command line (in a terminal):")
+                printc("<black>echo '83123456' | base64 > '~/.smsapifreemobile_user.b64'<white>".format())
         elif name == "password":
-            print("To create '~/.smsapifreemobile_password.b64', go to this webpage, https://mobile.free.fr/account/mes-options/notifications-sms (after logging to your Free Mobile account), and copy the API key (a 14-caracters string on [a-zA-Z0-9]*, like 'H6ahkTABEADz5Z'), and execute this command line (in a terminal):")
-            printc("<black>echo 'H6ahkTABEADz5Z' | base64 > '~/.smsapifreemobile_password.b64<white>' ".format())
+            if Platform == "win32":
+                print("To create" +"C:\\Users\\"+Uname+"\\.smsapifreemobile_password.b64, go to this webpage, https://mobile.free.fr/account/mes-options/notifications-sms (after logging to your Free Mobile account), and copy the API key (a 14-caracters string on [a-zA-Z0-9]*, like 'H6ahkTABEADz5Z'), and execute this command line (in a terminal):")
+                printc("<black> [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes( \"H6ahkTABEADz5Z\")) | Out-File -FilePath .\\.smsapifreemobile_password.b64")
+            else:
+                print("To create '~/.smsapifreemobile_password.b64', go to this webpage, https://mobile.free.fr/account/mes-options/notifications-sms (after logging to your Free Mobile account), and copy the API key (a 14-caracters string on [a-zA-Z0-9]*, like 'H6ahkTABEADz5Z'), and execute this command line (in a terminal):")
+                printc("<black>echo 'H6ahkTABEADz5Z' | base64 > '~/.smsapifreemobile_password.b64<white>' ".format())
 
 
 numbers = []
@@ -236,6 +265,7 @@ def send_sms(text="Empty!", secured=True, sleep_duration=0):
     for (user, password) in zip(users, passwords):
         dictQuery = {"user": user, "pass": password, "msg": text}
         string_query = json.dumps(dictQuery, sort_keys=True, indent=4)
+
         string_query = string_query.replace(password, '*' * len(password))
         printc("\nThe web-based query to the Free Mobile API (<u>{}://smsapi.free-mobile.fr/sendmsg?query<U>) will be based on:\n{}.".format(url, string_query))
         if sleep_duration > 0:
@@ -247,7 +277,7 @@ def send_sms(text="Empty!", secured=True, sleep_duration=0):
             else:
                 printc("\nDone sleeping for <red>{}<reset><white> seconds, it's time to query the API !".format(sleep_duration))
 
-        query = urlencode(dictQuery)
+        query = urllib.parse.urlencode(dictQuery)
         url += "://smsapi.free-mobile.fr/sendmsg?{}".format(query)
 
         try:
@@ -340,7 +370,7 @@ Sleep one minute.
             # FIXED Check that this is working correctly!
             machinename = "jarvis"  # Default name!
             try:
-                machinename = open("/etc/hostname").readline()[:-1]
+                machinename = socket.gethostname()
             except OSError:
                 print("Warning: unknown machine name (file '/etc/hostname' not readable?)...")
                 machinename = "unknown machine"
